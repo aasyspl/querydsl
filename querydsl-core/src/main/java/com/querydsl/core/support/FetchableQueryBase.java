@@ -37,6 +37,9 @@ import com.querydsl.core.types.SubQueryExpression;
 public abstract class FetchableQueryBase<T, Q extends FetchableQueryBase<T, Q>>
         extends QueryBase<Q> implements Fetchable<T> {
 
+    protected FetchableQueryBase() {
+    }
+
     public FetchableQueryBase(QueryMixin<Q> queryMixin) {
         super(queryMixin);
     }

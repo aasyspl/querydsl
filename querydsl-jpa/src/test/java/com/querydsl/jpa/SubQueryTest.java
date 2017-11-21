@@ -17,7 +17,9 @@ import static com.querydsl.jpa.Constants.*;
 import static com.querydsl.jpa.JPAExpressions.*;
 import static org.junit.Assert.assertEquals;
 
+import com.querydsl.core.testutil.Serialization;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.domain.Cat;
 import org.junit.Test;
 
 import com.querydsl.core.domain.QCat;
@@ -198,5 +200,14 @@ public class SubQueryTest extends AbstractQueryTest {
                 .from(cat)
                 .ne(0L);
         assertToString("(select count(cat) from Cat cat) <> ?1", ne);
+    }
+
+    @Test
+    public void subQueryShouldBeSerialized() {
+        JPQLQuery<Cat> subQuery = select(cat)
+                .from(cat)
+                .where(cat.alive.isTrue());
+        JPQLQuery<Cat> deserializationResult = Serialization.serialize(subQuery);
+        assertEquals(subQuery, deserializationResult);
     }
 }
