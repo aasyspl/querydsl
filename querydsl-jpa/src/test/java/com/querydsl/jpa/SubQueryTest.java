@@ -17,6 +17,7 @@ import static com.querydsl.jpa.Constants.*;
 import static com.querydsl.jpa.JPAExpressions.*;
 import static org.junit.Assert.assertEquals;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.Test;
 
 import com.querydsl.core.domain.QCat;
@@ -191,4 +192,11 @@ public class SubQueryTest extends AbstractQueryTest {
 //                query.toString().replace("\n", " "));
 //    }
 
+    @Test
+    public void testNotEqualWithConstant() {
+        BooleanExpression ne = select(cat.count())
+                .from(cat)
+                .ne(0L);
+        assertToString("(select count(cat) from Cat cat) <> ?1", ne);
+    }
 }
