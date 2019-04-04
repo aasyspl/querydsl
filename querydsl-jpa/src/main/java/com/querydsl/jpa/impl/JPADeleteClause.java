@@ -37,14 +37,21 @@ import com.querydsl.jpa.JPQLTemplates;
  */
 public class JPADeleteClause implements DeleteClause<JPADeleteClause> {
 
-    private final QueryMixin<?> queryMixin = new JPAQueryMixin<Void>();
+    protected QueryMixin<?> queryMixin = new JPAQueryMixin<Void>();
 
-    private final EntityManager entityManager;
+    protected EntityManager entityManager;
 
-    private final JPQLTemplates templates;
+    protected JPQLTemplates templates;
 
     @Nullable
-    private LockModeType lockMode;
+    protected LockModeType lockMode;
+
+    public JPADeleteClause(QueryMixin<?> queryMixin, EntityManager entityManager, JPQLTemplates templates, LockModeType lockMode) {
+        this.queryMixin = queryMixin;
+        this.entityManager = entityManager;
+        this.templates = templates;
+        this.lockMode = lockMode;
+    }
 
     public JPADeleteClause(EntityManager em, EntityPath<?> entity) {
         this(em, entity, JPAProvider.getTemplates(em));
@@ -89,5 +96,24 @@ public class JPADeleteClause implements DeleteClause<JPADeleteClause> {
         serializer.serializeForDelete(queryMixin.getMetadata());
         return serializer.toString();
     }
+
+    public QueryMixin<?> getQueryMixin() {
+        return queryMixin;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public JPQLTemplates getTemplates() {
+        return templates;
+    }
+
+    @Nullable
+    public LockModeType getLockMode() {
+        return lockMode;
+    }
+
+
 
 }

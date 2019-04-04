@@ -42,16 +42,24 @@ import com.querydsl.jpa.JPQLTemplates;
  */
 public class JPAUpdateClause implements UpdateClause<JPAUpdateClause> {
 
-    private final QueryMixin<?> queryMixin = new JPAQueryMixin<Void>();
+    protected QueryMixin<?> queryMixin = new JPAQueryMixin<Void>();
 
-    private final Map<Path<?>, Expression<?>> updates = Maps.newLinkedHashMap();
+    protected Map<Path<?>, Expression<?>> updates = Maps.newLinkedHashMap();
 
-    private final EntityManager entityManager;
+    protected EntityManager entityManager;
 
-    private final JPQLTemplates templates;
+    protected JPQLTemplates templates;
 
     @Nullable
-    private LockModeType lockMode;
+    protected LockModeType lockMode;
+
+    public JPAUpdateClause(QueryMixin<?> queryMixin, Map<Path<?>, Expression<?>> updates, EntityManager entityManager, JPQLTemplates templates, LockModeType lockMode) {
+        this.queryMixin = queryMixin;
+        this.updates = updates;
+        this.entityManager = entityManager;
+        this.templates = templates;
+        this.lockMode = lockMode;
+    }
 
     public JPAUpdateClause(EntityManager em, EntityPath<?> entity) {
         this(em, entity, JPAProvider.getTemplates(em));
@@ -141,4 +149,24 @@ public class JPAUpdateClause implements UpdateClause<JPAUpdateClause> {
         return updates.isEmpty();
     }
 
+    public QueryMixin<?> getQueryMixin() {
+        return queryMixin;
+    }
+
+    public Map<Path<?>, Expression<?>> getUpdates() {
+        return updates;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public JPQLTemplates getTemplates() {
+        return templates;
+    }
+
+    @Nullable
+    public LockModeType getLockMode() {
+        return lockMode;
+    }
 }

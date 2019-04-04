@@ -33,9 +33,9 @@ import com.querydsl.jpa.JPQLTemplates;
 public class JPAQueryFactory implements JPQLQueryFactory  {
 
     @Nullable
-    private final JPQLTemplates templates;
+    protected final JPQLTemplates templates;
 
-    private final Provider<EntityManager> entityManager;
+    protected final Provider<EntityManager> entityManager;
 
     public JPAQueryFactory(final EntityManager entityManager) {
         this.entityManager = new Provider<EntityManager>() {
